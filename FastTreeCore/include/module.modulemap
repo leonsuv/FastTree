@@ -1,0 +1,4 @@
+module FastTreeCore [system] {
+  header "FastTreeCore.h"
+  export *
+}

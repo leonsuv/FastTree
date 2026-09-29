@@ -1,0 +1,22 @@
+# macOS and Xcode
+.DS_Store
+.build/
+.swiftpm/
+*.xcuserstate
+
+# Local build output
+/dist/
+*.bin
+/scanners/agent-*/target/
+/scanners/agent-2/fasttree-scan
+
+# Local scanner indexes and transient writes
+*.ftidx
+*.ftidx.tmp.*
+*.eventid
+
+# Local benchmark data and profiling captures
+/bench/corpora/
+/bench/results/
+*.sample.txt
+__pycache__/

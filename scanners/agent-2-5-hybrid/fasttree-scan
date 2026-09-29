@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+HERE=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+if [ ! -x "$HERE/fasttree-scan.bin" ] || [ "$HERE/fasttree-scan.c" -nt "$HERE/fasttree-scan.bin" ]; then
+  "$HERE/build.sh"
+fi
+exec "$HERE/fasttree-scan.bin" "$@"
