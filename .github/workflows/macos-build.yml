@@ -2,6 +2,7 @@ name: macOS app build
 on:
   push:
     branches: [main, 'design/**']
+  workflow_dispatch:
   pull_request:
 jobs:
   app:
@@ -10,6 +11,14 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build native AppKit app
         run: ./build-appkit.sh
+      - name: Verify bundle and macOS deployment target
+        run: |
+          plutil -lint dist/FastTree.app/Contents/Info.plist
+          file dist/FastTree.app/Contents/MacOS/FastTree dist/FastTree.app/Contents/Resources/fasttree-scan
+          for binary in dist/FastTree.app/Contents/MacOS/FastTree dist/FastTree.app/Contents/Resources/fasttree-scan; do
+            vtool -show-build "$binary"
+            test "$(vtool -show-build "$binary" | awk '/minos/ {print $2}')" = "13.0"
+          done
       - name: Archive app
         run: ditto -c -k --sequesterRsrc --keepParent dist/FastTree.app dist/FastTree.zip
       - uses: actions/upload-artifact@v4
